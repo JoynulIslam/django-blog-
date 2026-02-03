@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %} {% load crispy_forms_tags %}
+
+<h3 class="text-center">Register</h3>
+
+{% if messages %} {% for message in messages %}
+<div class="alert alert-success text-center" id="success-message">
+  {{ message }}
+</div>
+
+<!-- Auto redirect after 3 seconds -->
+<script>
+  setTimeout(function () {
+    window.location.href = "{% url 'login' %}";
+  }, 3000);
+</script>
+{% endfor %} {% endif %}
+
+<form
+  action="{% url 'register' %}"
+  method="POST"
+  style="width: 500px; margin: auto"
+  class="p-4 mt-4 shadow rounded"
+>
+  {% csrf_token %} {{form | crispy}}
+  <button type="submit" class="btn btn-warning w-100 mt-2">Submit</button>
+</form>
+
+{% endblock content %}
