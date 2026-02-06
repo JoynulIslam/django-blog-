@@ -1,101 +1,106 @@
-    {% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-    {% block content %}
-  
-      <!-- Featured section -->
-{% for post in featured_post %}
-    {% if forloop.first %}
-    
-    <div
-    class="jumbotron p-3 p-md-5 text-white rounded bg-dark"
-    style="
-        background-image: url({{post.featured_image.url}});
+<!-- Featured section -->
+{% for post in featured_post %} {% if forloop.first %}
+<div
+  class="jumbotron p-3 p-md-5 text-white rounded bg-dark d-flex align-items-end"
+  style="
+        background-image: url({{ post.featured_image.url }});
         background-blend-mode: overlay;
         background-size: cover;
-    "
-    >
-            <div class="col-md-8 px-0">
-            <h1 class="display-4 font-italic">
-                {{post.title}}
-            </h1>
-            <p class="lead my-3">
-                {{post.short_description | truncatewords:10}}
-            </p>
-            <p class="lead mb-0">
-                <a href="{% url 'blogs' post.slug %}" class="text-white font-weight-bold"
-                >Continue reading...</a
-                >
-            </p>
-            </div>
-        </div>
-    {% endif %}
-{% endfor %}
-
-<!-- Featured Post -->
-<h3 class="text-uppercase text-warning" style="letter-spacing: 2px;">Featured Posts</h3>
-<div class="row mb-2">
-    {% for post in featured_post %}     
-      {% if not forloop.first %}     
-            <div class="col-md-6">
-                <div class="card border-0">
-                    <div class="card-body">
-                        <a href="{% url 'blogs' post.slug %}" class="text-dark" ><h3>{{post.title}}</h3></a>
-                        <small class="mb-1 text-muted">{{post.created_at | timesince}} ago | {{post.author}}</small>
-                        <p class="card-text">
-                        {{post.short_description | truncatewords:22}}
-                        </p>
-                    </div>
-                </div>
-            </div>
-     {% endif %}
-   {% endfor %}
-</div>
-
-<!-- Recent post -->
-<h3 class="text-uppercase text-warning" style="letter-spacing: 2px;">Recent Posts</h3>
-<main role="main" class="container p-0">
-<div class="row">
-<div class="col-md-8 blog-main">
-{% for post in posts %}          
-    <div class="card border-0">
-            <div class="card-body">
-                <a href="{% url 'blogs' post.slug %}" class="text-dark" ><h3>{{post.title}}</h3></a>
-                <small class="mb-1 text-muted">{{post.created_at | timesince}} ago | {{post.author}}</small>
-                <p class="card-text">
-                {{post.short_description | truncatewords:22}}
-                </p>
-            </div>
-        </div>
-{% endfor %}
-</div>
-<!-- /.blog-main -->
-
-<aside class="col-md-4 blog-sidebar">
-<div class="p-3 mb-3 bg-light rounded">
-    <h4 class="font-italic">{{about.about_heading}}</h4>
-    <p class="mb-0">
-    {{about.about_description}}
+        min-height: 350px;
+      "
+>
+  <div class="col-md-8 px-0">
+    <h1 class="display-4 font-italic">{{ post.title }}</h1>
+    <p class="lead my-3">{{ post.short_description | truncatewords:10 }}</p>
+    <p class="lead mb-0">
+      <a href="{% url 'blogs' post.slug %}" class="text-white font-weight-bold"
+        >Continue reading...</a
+      >
     </p>
+  </div>
 </div>
+{% endif %} {% endfor %}
 
-{% if socialLink %}
-  <div class="p-3">
-    <h4 class="font-italic">Follow Us</h4>
-    <ol class="list-unstyled">
-      {% for links in socialLink %}
-        <li><a href="{{links.link}}" target="_blank">{{links.platform}}</a></li>
-      {% endfor %}   
-    </ol>
-</div>
-{% endif %}
-
-
-</aside>
-<!-- /.blog-sidebar -->
-</div>
-<!-- /.row -->
-</main>
-      <!-- /.container -->
+<!-- Featured Posts Grid -->
+<h3 class="text-uppercase text-warning mt-4" style="letter-spacing: 2px">
+  Featured Posts
+</h3>
+<div class="row mb-4">
+  {% for post in featured_post %} {% if not forloop.first %}
+  <div class="col-md-6 mb-3">
+    <div class="card border-0 shadow-sm h-100 hover-card">
+      <div class="card-body">
+        <a href="{% url 'blogs' post.slug %}" class="text-dark"
+          ><h3>{{ post.title }}</h3></a
+        >
+        <small class="mb-1 text-muted"
+          >{{ post.created_at|timesince }} ago | {{ post.author }}</small
+        >
+        <p class="card-text">{{ post.short_description | truncatewords:22 }}</p>
+      </div>
     </div>
-    
- {% endblock content %}
+  </div>
+  {% endif %} {% endfor %}
+</div>
+
+<!-- Recent Posts & Sidebar -->
+<h3 class="text-uppercase text-warning mt-4" style="letter-spacing: 2px">
+  Recent Posts
+</h3>
+<div class="row">
+  <div class="col-md-8 blog-main">
+    {% for post in posts %}
+    <div class="card border-0 mb-3 shadow-sm hover-card">
+      <div class="card-body">
+        <a href="{% url 'blogs' post.slug %}" class="text-dark"
+          ><h3>{{ post.title }}</h3></a
+        >
+        <small class="mb-1 text-muted"
+          >{{ post.created_at|timesince }} ago | {{ post.author }}</small
+        >
+        <p class="card-text">{{ post.short_description | truncatewords:22 }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="col-md-4 blog-sidebar mt-4 mt-md-0">
+    <div class="p-3 mb-3 bg-light rounded shadow-sm">
+      <h4 class="font-italic">{{ about.about_heading }}</h4>
+      <p class="mb-0">{{ about.about_description }}</p>
+    </div>
+
+    {% if socialLink %}
+    <div class="p-3 bg-light rounded shadow-sm">
+      <h4 class="font-italic">Follow Us</h4>
+      <ol class="list-unstyled mb-0">
+        {% for links in socialLink %}
+        <li>
+          <a href="{{ links.link }}" target="_blank">{{ links.platform }}</a>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+
+<!-- Hover card effect -->
+<style>
+  .hover-card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+  }
+  .jumbotron {
+    position: relative;
+  }
+  .jumbotron h1,
+  .jumbotron p {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+</style>
+
+{% endblock content %}

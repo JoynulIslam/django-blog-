@@ -1,5 +1,5 @@
 <!-- Header Part -->
- {% load static %}
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,6 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Django Blogs</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
     <link
       href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -20,98 +25,97 @@
   <body>
     <div class="container">
       <header class="blog-header py-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-4 pt-1">
-            <a class="blog-header-logo text-dark" href="/">Django Blog</a>
+        <div class="row align-items-center">
+          <!-- Logo (Left on all devices) -->
+          <div class="col-6 col-md-3">
+            <a class="blog-header-logo text-dark font-weight-bold" href="/">
+              Django Blog
+            </a>
           </div>
-          <!-- Search -->
-          <div class="col-4">
-             <form action="{% url 'search' %}" method="GET">
-                <div class="input-group">
-            <input
-              type="text"
-              name="keyword"
-              value="{{keyword}}"
-              class="form-control"
-              placeholder="Enter Search Term..."
-              aria-label="Enter Search"
-            />
-            <button class="btn btn-primary" id="button-search" type="submit">
-              Go
-            </button>
+
+          <!-- User / Login (Right on all devices) -->
+          <div class="col-6 col-md-3 text-right order-md-3">
+            {% if not user.is_authenticated %}
+            <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a>
+            <a
+              class="btn btn-sm btn-outline-secondary ml-1"
+              href="{% url 'register' %}"
+            >
+              Register
+            </a>
+            {% else %}
+            <div class="dropdown d-inline-block">
+              <span
+                class="user-avatar dropdown-toggle"
+                id="userDropdown"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {{ user.username|slice:":1"|upper }}
+              </span>
+
+              <div class="dropdown-menu dropdown-menu-right shadow">
+                <h6 class="dropdown-header text-center font-weight-bold">
+                  {{ user.username }}
+                </h6>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'dashboard' %}"
+                  >Dashboard</a
+                >
+                <a class="dropdown-item" href="#">Reset Password</a>
+                <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                  Logout
+                </a>
+              </div>
+            </div>
+            {% endif %}
           </div>
-             </form>
+
+          <!-- Search (Full width on mobile, center on desktop) -->
+          <div class="col-12 col-md-6 order-md-2 mt-2 mt-md-0">
+            <form action="{% url 'search' %}" method="GET">
+              <div class="input-group">
+                <input
+                  type="text"
+                  name="keyword"
+                  value="{{ keyword }}"
+                  class="form-control"
+                  placeholder="Search posts..."
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">Go</button>
+                </div>
+              </div>
+            </form>
           </div>
-          <!-- login -->
-          <div class="col-4 d-flex justify-content-end align-items-center">
-
-  {% if not user.is_authenticated %}
-    <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a> &nbsp;
-    <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Register</a>
-
-  {% else %}
-    <div class="dropdown">
-      <span
-        class="user-avatar dropdown-toggle"
-        id="userDropdown"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        {{ user.username|slice:":1"|upper }}
-      </span>
-
-      <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="userDropdown">
-        <h6 class="dropdown-header text-center font-weight-bold">
-          {{ user.username }}
-        </h6>
-
-        <div class="dropdown-divider"></div>
-
-        <a class="dropdown-item" href="">
-          🔑 Reset Password
-        </a>
-
-        <a class="dropdown-item text-danger" href="{% url 'logout' %}">
-          🚪 Logout
-        </a>
-      </div>
-    </div>
-  {% endif %}
-
-</div>
-
-
-
-
         </div>
       </header>
 
-      <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
-            {% for cat in categories %}
-              <a class="p-2 text-muted" href="{% url 'post_by_category' cat.id %}">{{cat.name}}</a>
-            {% endfor %}      
+      <!-- Categories -->
+      <div class="nav-scroller py-2 mb-3">
+        <nav
+          class="nav justify-content-center justify-content-md-between flex-wrap"
+        >
+          {% for cat in categories %}
+          <a class="p-2 text-muted" href="{% url 'post_by_category' cat.id %}">
+            {{ cat.name }}
+          </a>
+          {% endfor %}
         </nav>
       </div>
+    </div>
 
-   
-      <!-- Main Content -->
+    <!-- Main Content -->
 
-     {% block content %}
-       
-     {% endblock content %}
+    {% block content %} {% endblock content %}
 
-
-      <!-- Footer Part -->
-       <footer class="blog-footer">
+    <!-- Footer Part -->
+    <footer class="blog-footer">
       <p>Django blog built with � by <a href="#">Joynul Islam</a></p>
     </footer>
-   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
-
-

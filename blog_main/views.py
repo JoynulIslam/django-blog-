@@ -9,7 +9,7 @@ from django.contrib import auth
 
 
 def home(request):
-    featured_post = Blog.objects.filter(is_featured=True , status = 'Published').order_by('updated_at')
+    featured_post = Blog.objects.filter(is_featured=True , status = 'Published').order_by('-updated_at')
     posts = Blog.objects.filter(is_featured=False , status = 'Published')
     
     # Fetch about Us

@@ -1,0 +1,36 @@
+<div class="col-md-3">
+  <div
+    class="nav flex-column nav-pills bg-light mb-3 px-2 gap-2"
+    aria-orientation="vertical"
+  >
+    <a
+      href="{% url 'dashboard' %}"
+      class="nav-link text-dark d-flex align-items-center gap-2 {{% if '/dashboard/' == request.path %}
+        bg-warning
+      {% endif %}}"
+    >
+      <i class="fa-solid fa-gauge"></i>
+      Dashboard
+    </a>
+
+    <a
+      href="{% url 'categories' %}"
+      class="nav-link text-dark d-flex align-items-center gap-2 {{% if '/categories/' in request.path %}
+        bg-warning
+      {% endif %}}"
+    >
+      <i class="fa-solid fa-list"></i>
+      Categories
+    </a>
+
+    <a href="" class="nav-link text-dark d-flex align-items-center gap-2">
+      <i class="fa-solid fa-pen-to-square"></i>
+      Posts
+    </a>
+
+    <a href="" class="nav-link text-dark d-flex align-items-center gap-2">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Logout
+    </a>
+  </div>
+</div>

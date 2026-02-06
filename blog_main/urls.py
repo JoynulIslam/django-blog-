@@ -16,4 +16,10 @@ urlpatterns = [
     path('register/',register,name='register'),
     path('login/',login,name='login'),
     path('logout/',logout,name='logout'),
+    #Dashboard
+    path('dashboard/',include('dashboards.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Custom error handlers
+handler403 = 'dashboards.views.unified_403_404_view'
+handler404 = 'dashboards.views.unified_403_404_view'
