@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 # Create your models here.
 class Category(models.Model):
@@ -32,5 +33,28 @@ class Blog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-updated_at']
+
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        if self.pk:
+            old = Blog.objects.get(pk=self.pk)
+            title_changed = old.title != self.title
+        else:
+            title_changed = True
+
+        if title_changed:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+
+            while Blog.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)

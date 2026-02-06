@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect , get_object_or_404
 from blogs.models import Category , Blog
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required, user_passes_test
-from dashboards.forms import CategoryForm
+from dashboards.forms import CategoryForm , BlogPostForm
 from django.contrib import messages
 # Create your views here.
 
@@ -67,3 +67,45 @@ def delete_category(request , pk):
     category = get_object_or_404(Category , pk = pk)
     category.delete()
     return redirect('categories')
+
+
+def posts(request):
+    posts = Blog.objects.all()
+    context = {
+        'posts' : posts
+    }
+    return render(request , 'dashboard/post.html' , context)
+
+def add_post(request):
+    form = BlogPostForm()
+    if request.method == "POST":
+        form = BlogPostForm(request.POST , request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts')
+    context = {
+        'form' : form
+    }
+    return render(request , 'dashboard/add_post.html',context)
+
+
+def edit_post(request , pk):
+    post = get_object_or_404(Blog , pk = pk)
+    form = BlogPostForm(instance=post)
+    if request.method == "POST":
+        form = BlogPostForm(request.POST, request.FILES ,instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+    context = {
+        'form' : form,
+        'post' : post
+    }
+    return render(request , 'dashboard/edit_post.html',context)
+
+def delete_post(request , pk):
+    post = get_object_or_404(Blog , pk = pk)
+    post.delete()
+    return redirect('posts')
