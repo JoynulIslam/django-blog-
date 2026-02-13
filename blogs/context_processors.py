@@ -10,3 +10,4 @@ def get_socialLink(request):
     return {
         'socialLink' : SocialLink.objects.all()
     }
+

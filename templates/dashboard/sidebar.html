@@ -33,6 +33,18 @@
       Posts
     </a>
 
+    {% if can_see_users %}
+    <a
+      href="{% url 'users' %}"
+      class="nav-link text-dark d-flex align-items-center gap-2 {{% if '/users/' in request.path %}
+        bg-warning
+      {% endif %}}"
+    >
+      <i class="fa-solid fa-users"></i>
+      Users
+    </a>
+    {% endif %}
+
     <a href="" class="nav-link text-dark d-flex align-items-center gap-2">
       <i class="fa-solid fa-right-from-bracket"></i>
       Logout

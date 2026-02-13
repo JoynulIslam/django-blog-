@@ -70,6 +70,8 @@ TEMPLATES = [
                    # custom context processor
                 "blogs.context_processors.get_categories",
                 "blogs.context_processors.get_socialLink",
+                "dashboards.context_processors.base_context",
+                "dashboards.context_processors.see_admin_or_manager",
             ],
         },
     },

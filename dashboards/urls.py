@@ -1,5 +1,5 @@
 from django.urls import path,include
-from dashboards.views import dashboard,categories,add_category,edit_category,delete_category,posts,add_post,edit_post,delete_post
+from dashboards.views import dashboard,categories,add_category,edit_category,delete_category,posts,add_post,edit_post,delete_post,users,add_user,edit_user,delete_user
 
 urlpatterns = [
     path('',dashboard , name='dashboard'),
@@ -13,4 +13,9 @@ urlpatterns = [
     path('posts/add/',add_post , name='add_post'),
     path('posts/edit/<int:pk>/',edit_post , name='edit_post'),
     path('posts/delete/<int:pk>/',delete_post , name='delete_post'),
+    #Users
+    path('users/',users , name='users'),
+    path('users/add/',add_user , name='add_user'),
+    path('users/edit/<int:pk>/',edit_user , name='edit_user'),
+    path('users/delete/<int:pk>/',delete_user , name='delete_user'),
 ]
