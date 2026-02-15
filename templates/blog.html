@@ -33,18 +33,51 @@
           <p class="fs-5 mb-4">{{ single_blog.blog_body }}</p>
 
           <!-- Comments -->
-          <h4>Comments ({{ comment_count }})</h4>
+          <h4 class="mb-4">Comments ({{ comment_count}})</h4>
+
           {% if comments %} {% for comment in comments %}
-          <div class="card mt-1">
+
+          <div class="card mb-3 shadow-sm border-0">
             <div class="card-body">
-              <p class="card-text mb-0">{{ comment }}</p>
-              <span>
-                <small>By {{ comment.user }}</small>
-                <small>| {{ comment.created_at | timesince }} ago</small>
-              </span>
+              <div class="d-flex align-items-start">
+                <!-- Avatar -->
+                <div class="mr-3">
+                  <div
+                    class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
+                    style="width: 45px; height: 45px; font-weight: bold"
+                  >
+                    {{ comment.user.username|first|upper }}
+                  </div>
+                </div>
+
+                <!-- Comment Content -->
+                <div class="flex-grow-1">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <h6 class="mb-0 font-weight-bold">
+                      {{ comment.user.username }}
+                    </h6>
+
+                    <small class="text-muted font-weight-light">
+                      {{ comment.created_at|date:"M d, Y h:i A" }}
+                    </small>
+                  </div>
+
+                  <p class="mb-0 text-muted">{{ comment.comment }}</p>
+                </div>
+              </div>
             </div>
           </div>
-          {% endfor %} {% else %} No comments yet. {% endif %}
+
+          {% endfor %} {% else %}
+
+          <div class="alert alert-light text-center shadow-sm">
+            No comments yet. Be the first to comment!
+          </div>
+
+          {% endif %}
+
           <br />
           <div class="form-group">
             {% if user.is_authenticated %}
