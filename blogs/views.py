@@ -18,24 +18,33 @@ def post_by_category(request, category_id):
     return render(request , 'post_by_category.html',context) 
 
 def blogs(request, slug):
-    single_blog = get_object_or_404(Blog, slug=slug, status='Published')
+    single_blog = get_object_or_404(
+        Blog,
+        slug=slug,
+        status="Published"
+    )
+
     if request.method == "POST":
         Comment.objects.create(
             user=request.user,
             blog=single_blog,
-            comment=request.POST.get('comment')
+            comment=request.POST.get("comment")
         )
-        return redirect('blogs', slug=single_blog.slug)
-    # Comments
-    comments = Comment.objects.filter(blog = single_blog)
-    comment_count = comments.count()
-    context = {
-        'single_blog': single_blog,
-        'comments' : comments,
-        'comment_count' : comment_count
-    }
-    return render(request, 'blog.html', context)
+        return redirect("blogs", slug=single_blog.slug)
 
+    comments = Comment.objects.filter(blog=single_blog)
+    comment_count = comments.count()
+
+    categories = Category.objects.all()
+
+    context = {
+        "single_blog": single_blog,
+        "comments": comments,
+        "comment_count": comment_count,
+        "categories": categories,
+    }
+
+    return render(request, "blog.html", context)
 
 def search(request):
     keyword = request.GET.get('keyword')

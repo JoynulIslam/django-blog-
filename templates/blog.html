@@ -21,11 +21,13 @@
         </header>
         <!-- Preview image figure-->
         <figure class="mb-4">
+          {% if single_blog.featured_image %}
           <img
             class="img-fluid rounded"
             src="{{ single_blog.featured_image.url }}"
-            alt="..."
+            alt="{{ single_blog.title }}"
           />
+          {% endif %}
         </figure>
         <!-- Post content-->
         <section class="mb-5">
