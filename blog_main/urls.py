@@ -1,25 +1,33 @@
-
 from django.contrib import admin
-from django.urls import path,include
-from .views import home,register,login,logout
+from django.urls import path, include
+from .views import home, register, login, logout
 from django.conf.urls.static import static
 from django.conf import settings
-from blogs.views import blogs,search
+from blogs.views import blogs, search
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('',home,name='home'),
-    path('category/',include('blogs.urls')),
-    path('blogs/<slug:slug>/',blogs,name='blogs'),
-    #search endpoint
-    path('blogs/search/',search,name='search'),
-    path('register/',register,name='register'),
-    path('login/',login,name='login'),
-    path('logout/',logout,name='logout'),
-    #Dashboard
-    path('dashboard/',include('dashboards.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Custom error handlers
-handler403 = 'dashboards.views.unified_403_404_view'
-handler404 = 'dashboards.views.unified_403_404_view'
+    path("", home, name="home"),
+    path("category/", include("blogs.urls")),
+    path("blogs/<slug:slug>/", blogs, name="blogs"),
+    path("blogs/search/", search, name="search"),
+
+    path("register/", register, name="register"),
+    path("login/", login, name="login"),
+    path("logout/", logout, name="logout"),
+
+    path("dashboard/", include("dashboards.urls")),
+]
+
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )
+
+
+handler403 = "dashboards.views.unified_403_404_view"
+handler404 = "dashboards.views.unified_403_404_view"
