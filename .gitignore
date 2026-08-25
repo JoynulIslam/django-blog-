@@ -155,20 +155,31 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
-# Pyre type checker
-.pyre/
+# Virtual Environment
+env/
+venv/
+.venv/
 
-# pytype static type analyzer
-.pytype/
+# Environment variables
+.env
 
-# Cython debug symbols
-cython_debug/
+# Python
+__pycache__/
+*.py[cod]
 
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+# Django
+db.sqlite3
 
-# End of https://www.toptal.com/developers/gitignore/api/django
+# Static
+staticfiles/
+
+# Media
+media/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
